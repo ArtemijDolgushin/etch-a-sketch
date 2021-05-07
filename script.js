@@ -51,6 +51,7 @@ function createSketchField(number) {
         const item = document.createElement("div");
         item.setAttribute("class", "item");
         item.setAttribute("id", "item");
+        item.style["backgroundColor"] = `#FFFFFF`;
         item.style["filter"] = "brightness(1.01)";
         container.append(item);
     }
@@ -61,6 +62,7 @@ function createSketchField(number) {
 createSketchField(16);
 
 function blackPen (target){
+    target.style["backgroundColor"] = `#FFFFFF`;
     target.style["filter"] = "brightness(0.01)";
 }
 function whitePen (target){
