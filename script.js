@@ -7,24 +7,25 @@ resetButton.addEventListener("click", resetSketchField);
 function createPen(){
     container.addEventListener("mouseover", (e) => {
         const target = e.target;
-        if (target.id!=="item"){return;}
-        const color=getColor();
-        switch(color){
-            case 'blackPen':
-                blackPen(target);
-                break;
-            case 'whitePen':
-                whitePen(target);
-                break;
-            case 'randomPen':
-                randomPen(target);
-                break;
-            case 'darkenPen':
-                darkenPen(target, /\d+.\d+/);
-                break;
-            case 'lightenPen':
-                lightenPen(target, /\d+.\d+/);
-                break;
+        if (target.id==="item") {
+            const color = getColor();
+            switch (color) {
+                case 'blackPen':
+                    blackPen(target);
+                    break;
+                case 'whitePen':
+                    whitePen(target);
+                    break;
+                case 'randomPen':
+                    randomPen(target);
+                    break;
+                case 'darkenPen':
+                    darkenPen(target, /\d+.\d+/);
+                    break;
+                case 'lightenPen':
+                    lightenPen(target, /\d+.\d+/);
+                    break;
+            }
         }
     });
 }
@@ -33,17 +34,23 @@ function remakeSketchField(){
     const number = getDimension();
     const itemList = document.querySelectorAll(".item");
     const itemNumber = itemList.length;
-    for (let i=0;i<itemNumber;i++){container.removeChild(container.lastChild);}
+    for (let i=0;i<itemNumber;i++) container.removeChild(container.lastChild);
     createSketchField(number);
 }
 function resetSketchField(){
     const itemList = document.querySelectorAll(".item");
     const itemNumber = itemList.length;
-    for (let i=0;i<itemNumber;i++){container.removeChild(container.lastChild);}
+    for (let i=0;i<itemNumber;i++) container.removeChild(container.lastChild);
     createSketchField(Math.sqrt(itemNumber));
 }
 function getDimension(){
-    return +window.prompt("Please specify the dimension of the sketch field", "");
+    let dimension=0;
+    for (;;){
+        dimension= +window.prompt("Please specify the dimension of the sketch field (max. 100)", "");
+        if (dimension<101) break;
+        alert("The maximum size of dimension is 100");
+    }
+    return dimension;
 }
 
 function createSketchField(number) {
@@ -80,11 +87,12 @@ function darkenPen (target, regex){
     target.style["filter"] = `brightness(${amount})`;
 }
 function lightenPen (target, regex){
-    if ((target.style["backgroundColor"]==="rgb(255, 255, 255)")&&(target.style["filter"] === "brightness(1.01)")){return;}
+    if ((target.style["backgroundColor"]!=="rgb(255, 255, 255)")||(target.style["filter"] !== "brightness(1.01)")){
     let filter = target.style["filter"];
     let amount = +filter.match(regex)[0];
     amount+= 0.1;
     target.style["filter"] = `brightness(${amount})`;
+    }
 }
 function getColor(){
     return document.querySelector('input[name="penList"]:checked').value;
